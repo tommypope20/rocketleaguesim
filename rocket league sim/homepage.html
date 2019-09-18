@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Rocket League Manager</title>
+    <link rel="stylesheet" type="text/css" href="data/stylesheet.css" />
+    <script src="scripts/sketch.js"></script>
+    <script src="scripts/p5.js"></script>
+    <script src="scripts/p5.dom.min.js"></script>
+    <script src="scripts/p5.sound.min.js"></script>
+</head>
+<body>
+       <ul>
+           <li>Home</li>
+           <li onclick="displayPlayers()">Player List</li>
+           <li onclick="displayTeams()">Team List</li>
+           <div class="dropdown">
+            <li class="dropbtn" onclick="advanceMenu()">
+            Advance
+            </li>
+            <div class="dropdown-content" id="AdvanceDrop">
+                <li onclick="advance(1)">Advance Day</li>
+                <li onclick="advance(7)">Advance Week</li>
+                <li onclick="advance(31)">Advance Month</li>
+            </div>
+           </div>
+           <li id="date"></li>
+       </ul>
+</body>
+</html>
