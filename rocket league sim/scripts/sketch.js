@@ -1,5 +1,6 @@
 players = [];
 teams = [];
+freeagents = [];
 date = [1, 1, 2019];
 
 function preload() {
@@ -50,7 +51,7 @@ function generatePlayers() {
 
 
     players = [];
-    for (x = 0; x < 18; x++) {
+    for (x = 0; x < 30; x++) {
     randNum = random(0, 100);
 
     if (randNum <= 1) {nat = "Argentina"; natid = 0};
@@ -128,7 +129,7 @@ function generatePlayers() {
 function displayPlayers() {
 
     body = document.body;
-
+    
     if (body.children.length > 2) {
         body.removeChild(body.lastChild);
     }
@@ -222,25 +223,31 @@ function playerPage() {
     body = document.body;
 
     if (body.children.length > 2) {
-        body.removeChild(body.lastChild);
+        for(v = 0; v < body.children.length - 2; v++) {
+            body.removeChild(body.lastChild);
+        }
     }
+
+    hold = document.createElement("div");
+    body.appendChild(hold);
 
     t = document.createElement("p");
     t.innerHTML = "Name: " + tplyr.firstName + " " + tplyr.lastName;
-    body.appendChild(t);
+    hold.appendChild(t);
 
     t = document.createElement("p");
     t.innerHTML = "Team: " + tplyr.team.tname;
-    body.appendChild(t);
+    hold.appendChild(t);
 
     rating = document.createElement("div");
     rating.setAttribute("style", "border:1px solid black; width:20%; padding-left:15px;")
 
-    body.appendChild(rating);
+    hold.appendChild(rating);
 
 
     r = document.createElement("p");
     r.innerHTML = "Overall: " + tplyr.ovr;
+    hold.appendChild(rating);
     rating.appendChild(r);
 
     if (tplyr.lmshot == undefined) {
@@ -262,19 +269,19 @@ function playerPage() {
     } else {
 
     r = document.createElement("p");
-    r.innerHTML = "Shot Rating: " + tplyr.shot + " " + tplyr.shot - tplyr.lmshot;
+    r.innerHTML = "Shot Rating: " + Math.round(tplyr.shot) + " " + Math.round((tplyr.shot - tplyr.lmshot));
     rating.appendChild(r);
 
     r = document.createElement("p");
-    r.innerHTML = "Save Rating: " + tplyr.save + " " + tplyr.save - tplyr.lmsave;
+    r.innerHTML = "Save Rating: " + Math.round(tplyr.save) + " " + Math.round((tplyr.save - tplyr.lmsave));
     rating.appendChild(r);
 
     r = document.createElement("p");
-    r.innerHTML = "Control Rating: " + tplyr.ctrl + " " + tplyr.ctrl - tplyr.lmctrl;
+    r.innerHTML = "Control Rating: " + Math.round(tplyr.ctrl) + " " + Math.round((tplyr.ctrl - tplyr.lmctrl));
     rating.appendChild(r);
 
     r = document.createElement("p");
-    r.innerHTML = "Pass Rating: " + tplyr.pass + " " + tplyr.pass - tplyr.lmpass;
+    r.innerHTML = "Pass Rating: " + Math.round(tplyr.pass) + " " + Math.round((tplyr.pass - tplyr.lmpass));
     rating.appendChild(r);
     }
     
@@ -319,6 +326,7 @@ function displayTeams() {
 
     r.appendChild(th);
 
+    
     for (x=0; x < teams.length; x++) {
         r = document.createElement("tr");
 
@@ -403,17 +411,29 @@ function advance(days) {
         date[1] = 1;
         date[0] = date[0] + 1;
         playerProgression();
+        rankTeams();
     } else {
         date[1] = date[1] + 1;
     }
 
-    if (date[0] >= 12) {
+    if (date[0] > 12) {
         date[0] = 1;
+        date[2] = date[2] + 1;
+
+        playerRetirement();
+
+        for (a = 0; a < players.length; a++) {
+            players[a].age = players[a].age + 1;
+        }
     }
 
     dat = document.getElementById("date");
     dat.innerHTML = date[0] + "/" + date[1] + "/" + date[2];
     }
+}
+
+function vacation() {
+    advance(372);
 }
 
 function advanceMenu() {
@@ -440,11 +460,11 @@ function playerProgression() {
 
         if (players[x].age > 23) {
             randNum = Math.random();
-            if(randNum > .8) {
+            if(randNum < .9) {
                     randNum = Math.random();
                     if (randNum >= .9) {
 
-                        if (players[x].pot == players[x].ovr) {
+                        if (players[x].pot == Math.round(players[x].ovr)  || players[x].ovr > players[x].pot) {
 
                         } else {
                         players[x].shot = players[x].shot + Math.random();
@@ -453,44 +473,41 @@ function playerProgression() {
                         players[x].save = players[x].save + Math.random();}
 
                     } else if (randNum >= .5 && randNum < .9) {
-
-                        if (players[x].pot == players[x].ovr) {
-
-                        players[x].shot = players[x].shot + Math.random() * (.3 - 0) + 0;
-                        players[x].pass = players[x].pass + Math.random() * (.3 - 0) + 0;
-                        players[x].ctrl = players[x].ctrl + Math.random() * (.3 - 0) + 0;
-                        players[x].save = players[x].save + Math.random() * (.3 - 0) + 0;}
+                        players[x].shot = players[x].shot + Math.random() * (0 - -.5) + -.5;
+                        players[x].pass = players[x].pass + Math.random() * (0 - -.5) + -.5;
+                        players[x].ctrl = players[x].ctrl + Math.random() * (0 - -.5) + -.5;
+                        players[x].save = players[x].save + Math.random() * (0 - -.5) + -.5;
 
                     } else {
-                        players[x].shot = players[x].shot + Math.random() * (0 - -.3) + -.3;
-                        players[x].pass = players[x].pass + Math.random() * (0 - -.3) + -.3;
-                        players[x].ctrl = players[x].ctrl + Math.random() * (0 - -.3) + -.3;
-                        players[x].save = players[x].save + Math.random() * (0 - -.3) + -.3;
+                        players[x].shot = players[x].shot + Math.random() * (-.5 - -2) + -2;
+                        players[x].pass = players[x].pass + Math.random() * (-.5 - -2) + -2;
+                        players[x].ctrl = players[x].ctrl + Math.random() * (-.5 - -2) + -2;
+                        players[x].save = players[x].save + Math.random() * (-.5 - -2) + -2;
                 }
             }
         } else {
             randNum = Math.random();
-            if(randNum > .8) {
+            if(randNum < .85) {
                     randNum = Math.random();
                     if (randNum >= .75) {
 
-                        if (players[x].pot == players[x].ovr) {
+                        if (players[x].pot == Math.round(players[x].ovr)  || players[x].ovr > players[x].pot) {
 
                         } else {
 
-                        players[x].shot = players[x].shot + Math.random() * (2 - 0) + 0;
-                        players[x].pass = players[x].pass + Math.random() * (2 - 0) + 0;
-                        players[x].ctrl = players[x].ctrl + Math.random() * (2 - 0) + 0;
-                        players[x].save = players[x].save + Math.random() * (2 - 0) + 0;}
+                        players[x].shot = players[x].shot + Math.random() * (3 - .5) + .5;
+                        players[x].pass = players[x].pass + Math.random() * (3 - .5) + .5;
+                        players[x].ctrl = players[x].ctrl + Math.random() * (3 - .5) + .5;
+                        players[x].save = players[x].save + Math.random() * (3 - .5) + .5;}
                     } else if (randNum >= .1 && randNum < .75) {
 
-                        if (players[x].pot == players[x].ovr) {
+                        if (players[x].pot == Math.round(players[x].ovr)  || players[x].ovr > players[x].pot) {
                         
                         } else {
-                        players[x].shot = players[x].shot + Math.random() * (.3 - 0) + 0;
-                        players[x].pass = players[x].pass + Math.random() * (.3 - 0) + 0;
-                        players[x].ctrl = players[x].ctrl + Math.random() * (.3 - 0) + 0;
-                        players[x].save = players[x].save + Math.random() * (.3 - 0) + 0;}
+                        players[x].shot = players[x].shot + Math.random() * (.5 - 0) + 0;
+                        players[x].pass = players[x].pass + Math.random() * (.5 - 0) + 0;
+                        players[x].ctrl = players[x].ctrl + Math.random() * (.5 - 0) + 0;
+                        players[x].save = players[x].save + Math.random() * (.5 - 0) + 0;}
                     } else {
                         players[x].shot = players[x].shot + Math.random() * (0 - -.3) + -.3;
                         players[x].pass = players[x].pass + Math.random() * (0 - -.3) + -.3;
@@ -500,7 +517,103 @@ function playerProgression() {
             }
         }
 
+        if (players[x].shot > 100) {
+            players[x].shot = 100;
+        }  if (players[x].pass > 100) {
+            players[x].pass = 100;
+        }  if (players[x].save > 100) {
+            players[x].save = 100;
+        }  if (players[x].ctrl > 100) {
+            players[x].ctrl = 100;
+        }
+        
         players[x].ovr = Math.round((players[x].shot + players[x].pass + players[x].save + players[x].ctrl)/4);
+    }
+}
+
+function playerRetirement() {
+    for (x = 0; x < players.length; x++) {
+        if (players[x].age >= 25) {
+              if ((Math.floor(Math.random() * (30 - 20 +1)) + 20) + players[x].age > 50) {
+                  for(p = 0; p < players[x].team.tplayers.length; p++) {
+                      if (players[x].team.tplayers[p].firstName + " " + players[x].team.tplayers[p].lastName == players[x].firstName + " " + players[x].lastName) {
+                        players[x].team.tplayers.splice(p, 1)
+                        break;
+                      }
+                  } 
+                  players.splice(x, 1);
+                  x--;
+              };
+        }
+    }
+}
+
+function newGens() {
+    num = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
+    for(x = 0; x < num; x++) {
+    
+    randNum = random(0, 100);
+
+    if (randNum <= 1) {nat = "Argentina"; natid = 0};
+    if (randNum <= 6 && randNum > 1) {nat = "Australia"; natid = 2};
+    if (randNum <= 7 && randNum > 6) {nat = "Belgium"; natid = 4};
+    if (randNum <= 12 && randNum > 7) {nat = "Brazil"; natid = 6};
+    if (randNum <= 27 && randNum > 12) {nat = "Canada"; natid = 8};
+    if (randNum <= 28 && randNum > 27) {nat = "Colombia"; natid = 10};
+    if (randNum <= 28 && randNum > 29) {nat = "Denmark"; natid = 12};
+    if (randNum <= 36 && randNum > 29) {nat = "England"; natid = 14};
+    if (randNum <= 37 && randNum > 36) {nat = "Finland"; natid = 16};
+    if (randNum <= 47 && randNum > 37) {nat = "France"; natid = 18};
+    if (randNum <= 50 && randNum > 47) {nat = "Germany"; natid = 20};
+    if (randNum <= 51 && randNum > 50) {nat = "Ireland"; natid = 22};
+    if (randNum <= 53 && randNum > 51) {nat = "Italy"; natid = 24};
+    if (randNum <= 56 && randNum > 53) {nat = "Netherlands"; natid = 26};
+    if (randNum <= 58 && randNum > 56) {nat = "New Zealand"; natid = 28};
+    if (randNum <= 59 && randNum > 58) {nat = "Norway"; natid = 30};
+    if (randNum <= 61 && randNum > 59) {nat = "Scotland"; natid = 32};
+    if (randNum <= 71 && randNum > 61) {nat = "Spain"; natid = 34};
+    if (randNum <= 74 && randNum > 71) {nat = "Sweden"; natid = 36};
+    if (randNum <= 100 && randNum > 74) {nat = "U.S.A"; natid = 38};
+
+    randNumF = Math.floor(Math.random() * names.first.c[natid + 1].length) + 0;
+    randNumL = Math.floor(Math.random() * names.last.c[natid + 1].length) + 0;
+
+    fname = names.first.c[natid + 1][randNumF][0];
+
+    lname = names.last.c[natid + 1][randNumL][0];
+
+    randNum = random(0, 100);
+    if (randNum <= 10) [age = 16];
+    if (randNum <= 20 && randNum > 10) [age = 17];
+    if (randNum <= 40 && randNum > 20) [age = 18];
+    if (randNum <= 55 && randNum > 40) [age = 19];
+    if (randNum <= 65 && randNum > 55) [age = 20];
+    if (randNum <= 80 && randNum > 65) [age = 21];
+    if (randNum <= 90 && randNum > 80) [age = 22];
+    if (randNum <= 100 && randNum > 90) [age = 23];
+
+    player = new Player(fname, lname, age, nat);
+    players.push(player);
+    freeagents.push(player);
+
+    if (players[x].team.rep >= 90) {
+        players[x].shot = Math.floor(Math.random() * (100 - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
+        players[x].save = Math.floor(Math.random() * (100 - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
+        players[x].ctrl = Math.floor(Math.random() * (100 - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
+        players[x].pass = Math.floor(Math.random() * (100 - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
+        players[x].ovr = Math.round((players[x].pass + players[x].ctrl + players[x].save + players[x].shot)/4)
+        players[x].pot = Math.floor(Math.random() * (100 - (players[x].ovr) + 1) + players[x].ovr)
+    } else {
+        players[x].shot = Math.floor(Math.random() * ((players[x].team.rep + 10) - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
+        players[x].save = Math.floor(Math.random() * ((players[x].team.rep + 10) - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
+        players[x].ctrl = Math.floor(Math.random() * ((players[x].team.rep + 10) - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
+        players[x].pass = Math.floor(Math.random() * ((players[x].team.rep + 10) - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
+        players[x].ovr = Math.round((players[x].pass + players[x].ctrl + players[x].save + players[x].shot)/4)
+        players[x].pot = Math.floor(Math.random() * (100 - (players[x].ovr) + 1) + players[x].ovr)
+
+    }
+
+
     }
 }
 
