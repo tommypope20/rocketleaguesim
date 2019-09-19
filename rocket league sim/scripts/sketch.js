@@ -175,6 +175,7 @@ function displayPlayers() {
 
         n = document.createElement("td");
         n.innerHTML = players[x].firstName + " " + players[x].lastName;
+        n.setAttribute("onclick", "playerPage()")
         r.appendChild(n);
 
         age = document.createElement("td");
@@ -207,6 +208,79 @@ function teamGenerate() {
         team = new Team(teamname, undefined, [], undefined, rep);
         teams.push(team);
     }
+}
+
+function playerPage() {
+    pname = event.target.innerHTML;
+
+    for(i = 0; i<players.length; i++) {
+        if (pname == players[i].firstName + " " + players[i].lastName) {
+            tplyr = players[i];
+        }
+    }
+
+    body = document.body;
+
+    if (body.children.length > 2) {
+        body.removeChild(body.lastChild);
+    }
+
+    t = document.createElement("p");
+    t.innerHTML = "Name: " + tplyr.firstName + " " + tplyr.lastName;
+    body.appendChild(t);
+
+    t = document.createElement("p");
+    t.innerHTML = "Team: " + tplyr.team.tname;
+    body.appendChild(t);
+
+    rating = document.createElement("div");
+    rating.setAttribute("style", "border:1px solid black; width:20%; padding-left:15px;")
+
+    body.appendChild(rating);
+
+
+    r = document.createElement("p");
+    r.innerHTML = "Overall: " + tplyr.ovr;
+    rating.appendChild(r);
+
+    if (tplyr.lmshot == undefined) {
+        r = document.createElement("p");
+        r.innerHTML = "Shot Rating: " + tplyr.shot ;
+        rating.appendChild(r);
+
+        r = document.createElement("p");
+        r.innerHTML = "Save Rating: " + tplyr.save;
+        rating.appendChild(r);
+
+        r = document.createElement("p");
+        r.innerHTML = "Control Rating: " + tplyr.ctrl;
+        rating.appendChild(r);
+
+        r = document.createElement("p");
+        r.innerHTML = "Pass Rating: " + tplyr.pass;
+        rating.appendChild(r);
+    } else {
+
+    r = document.createElement("p");
+    r.innerHTML = "Shot Rating: " + tplyr.shot + " " + tplyr.shot - tplyr.lmshot;
+    rating.appendChild(r);
+
+    r = document.createElement("p");
+    r.innerHTML = "Save Rating: " + tplyr.save + " " + tplyr.save - tplyr.lmsave;
+    rating.appendChild(r);
+
+    r = document.createElement("p");
+    r.innerHTML = "Control Rating: " + tplyr.ctrl + " " + tplyr.ctrl - tplyr.lmctrl;
+    rating.appendChild(r);
+
+    r = document.createElement("p");
+    r.innerHTML = "Pass Rating: " + tplyr.pass + " " + tplyr.pass - tplyr.lmpass;
+    rating.appendChild(r);
+    }
+    
+
+
+    
 }
 
 function displayTeams() {
@@ -357,6 +431,13 @@ function advanceMenu() {
 
 function playerProgression() {
     for (x = 0; x < players.length; x++) {
+
+        players[x].lmshot = players[x].shot;
+        players[x].lmsave = players[x].save;
+        players[x].lmpass = players[x].pass;
+        players[x].lmctrl = players[x].ctrl;
+        players[x].lmovr = players[x].ovr;
+
         if (players[x].age > 23) {
             randNum = Math.random();
             if(randNum > .8) {
@@ -405,8 +486,7 @@ function playerProgression() {
 
                         if (players[x].pot == players[x].ovr) {
                         
-                        }else {
-
+                        } else {
                         players[x].shot = players[x].shot + Math.random() * (.3 - 0) + 0;
                         players[x].pass = players[x].pass + Math.random() * (.3 - 0) + 0;
                         players[x].ctrl = players[x].ctrl + Math.random() * (.3 - 0) + 0;
