@@ -397,10 +397,10 @@ function playerProgression() {
 
                         } else {
 
-                        players[x].shot = players[x].shot + Math.random();
-                        players[x].pass = players[x].pass + Math.random();
-                        players[x].ctrl = players[x].ctrl + Math.random();
-                        players[x].save = players[x].save + Math.random();}
+                        players[x].shot = players[x].shot + Math.random() * (2 - 0) + 0;
+                        players[x].pass = players[x].pass + Math.random() * (2 - 0) + 0;
+                        players[x].ctrl = players[x].ctrl + Math.random() * (2 - 0) + 0;
+                        players[x].save = players[x].save + Math.random() * (2 - 0) + 0;}
                     } else if (randNum >= .1 && randNum < .75) {
 
                         if (players[x].pot == players[x].ovr) {
@@ -420,7 +420,7 @@ function playerProgression() {
             }
         }
 
-        players[x].ovr = (players[x].shot + players[x].pass + players[x].save + players[x].crtl)/4
+        players[x].ovr = Math.round((players[x].shot + players[x].pass + players[x].save + players[x].ctrl)/4);
     }
 }
 
