@@ -380,10 +380,11 @@ function rankTeams() {
                 } else if (teams[z].teamelo > teams[x].teamelo) {
                     if (teams[z].trank == 1) {
 
-                    } else if (teams[x].trank == 1) {
-                        teams[x].trank = teams[x].trank + 1;
-                    } else {
+                    } 
+                     else {
                         teams[z].trank = teams[z].trank - 1;
+                    } if (teams[x].trank == 1) {
+                        teams[x].trank = teams[x].trank + 1;
                     }
                 }
             }
@@ -421,6 +422,8 @@ function advance(days) {
         date[2] = date[2] + 1;
 
         playerRetirement();
+        newGens();
+        playerPickup();
 
         for (a = 0; a < players.length; a++) {
             players[a].age = players[a].age + 1;
@@ -549,7 +552,8 @@ function playerRetirement() {
 }
 
 function newGens() {
-    num = Math.floor(Math.random() * (10 - 5 + 1)) + 5;
+
+    num = Math.floor(Math.random() * (5 - 0 + 1)) + 0;
     for(x = 0; x < num; x++) {
     
     randNum = random(0, 100);
@@ -583,37 +587,57 @@ function newGens() {
     lname = names.last.c[natid + 1][randNumL][0];
 
     randNum = random(0, 100);
-    if (randNum <= 10) [age = 16];
-    if (randNum <= 20 && randNum > 10) [age = 17];
-    if (randNum <= 40 && randNum > 20) [age = 18];
-    if (randNum <= 55 && randNum > 40) [age = 19];
-    if (randNum <= 65 && randNum > 55) [age = 20];
-    if (randNum <= 80 && randNum > 65) [age = 21];
-    if (randNum <= 90 && randNum > 80) [age = 22];
-    if (randNum <= 100 && randNum > 90) [age = 23];
+    if (randNum <= 30) [age = 16];
+    if (randNum <= 50 && randNum > 30) [age = 17];
+    if (randNum <= 70 && randNum > 50) [age = 18];
+    if (randNum <= 90 && randNum > 70) [age = 19];
+    if (randNum <= 95 && randNum > 90) [age = 20];
+    if (randNum <= 97 && randNum > 95) [age = 21];
+    if (randNum <= 99 && randNum > 97) [age = 22];
+    if (randNum <= 100 && randNum > 99) [age = 23];
 
-    player = new Player(fname, lname, age, nat);
+    pid = players.length;
+
+    freeagentt = {};
+
+    player = new Player(fname, lname, age, nat, freeagentt);
     players.push(player);
     freeagents.push(player);
 
-    if (players[x].team.rep >= 90) {
-        players[x].shot = Math.floor(Math.random() * (100 - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
-        players[x].save = Math.floor(Math.random() * (100 - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
-        players[x].ctrl = Math.floor(Math.random() * (100 - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
-        players[x].pass = Math.floor(Math.random() * (100 - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
-        players[x].ovr = Math.round((players[x].pass + players[x].ctrl + players[x].save + players[x].shot)/4)
-        players[x].pot = Math.floor(Math.random() * (100 - (players[x].ovr) + 1) + players[x].ovr)
+    freeagentt.tname = "Free Agents";
+    
+    rand = random(50, 100);
+
+    if (rand >= 99) {
+        players[pid].shot = Math.floor(Math.random() * (100 - (rand - 10) + 1) + (rand - 10));
+        players[pid].save = Math.floor(Math.random() * (100 - (rand - 10) + 1) + (rand - 10));
+        players[pid].ctrl = Math.floor(Math.random() * (100 - (rand - 10) + 1) + (rand - 10));
+        players[pid].pass = Math.floor(Math.random() * (100 - (rand - 10) + 1) + (rand - 10));
+        players[pid].ovr = Math.round((players[pid].pass + players[pid].ctrl + players[pid].save + players[pid].shot)/4)
+        players[pid].pot = Math.floor(Math.random() * (100 - (players[pid].ovr) + 1) + players[pid].ovr)
     } else {
-        players[x].shot = Math.floor(Math.random() * ((players[x].team.rep + 10) - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
-        players[x].save = Math.floor(Math.random() * ((players[x].team.rep + 10) - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
-        players[x].ctrl = Math.floor(Math.random() * ((players[x].team.rep + 10) - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
-        players[x].pass = Math.floor(Math.random() * ((players[x].team.rep + 10) - (players[x].team.rep - 10) + 1) + (players[x].team.rep - 10));
-        players[x].ovr = Math.round((players[x].pass + players[x].ctrl + players[x].save + players[x].shot)/4)
-        players[x].pot = Math.floor(Math.random() * (100 - (players[x].ovr) + 1) + players[x].ovr)
+        players[pid].shot = Math.floor(Math.random() * ((rand + 10) - (rand - 10) + 1) + (rand - 10));
+        players[pid].save = Math.floor(Math.random() * ((rand + 10) - (rand - 10) + 1) + (rand - 10));
+        players[pid].ctrl = Math.floor(Math.random() * ((rand + 10) - (rand - 10) + 1) + (rand - 10));
+        players[pid].pass = Math.floor(Math.random() * ((rand + 10) - (rand - 10) + 1) + (rand - 10));
+        players[pid].ovr = Math.round((players[pid].pass + players[pid].ctrl + players[pid].save + players[pid].shot)/4)
+        players[pid].pot = Math.floor(Math.random() * (100 - (players[pid].ovr) + 1) + players[pid].ovr)
 
     }
 
 
+    }
+}
+
+function playerPickup() {
+    for (x = 0; x < teams.length; x++) {
+        if (teams[x].tplayers.length < 3) {
+            picked = Math.floor(Math.random() * (freeagents.length - 0 + 1)) + 0;
+            teams[x].tplayers.push(freeagents[picked]);
+            freeagents[picked].team = teams[x];
+            print(freeagents[picked]);
+            freeagents.splice(picked, 1);
+        }
     }
 }
 
