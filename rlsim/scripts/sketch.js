@@ -4,10 +4,10 @@ freeagents = [];
 date = [1, 1, 2019];
 
 function preload() {
-    let url = "data/names.json"
+    let url = "rlsim/data/names.json"
     names = loadJSON(url);
 
-    let turl = "data/teams.json"
+    let turl = "rlsim/data/teams.json"
     teamn = loadJSON(turl);
 }
 
