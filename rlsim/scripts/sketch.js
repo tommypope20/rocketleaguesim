@@ -368,6 +368,10 @@ function rankTeams() {
     }
 
     teams.sort(function (a, b){return b.teamelo - a.teamelo});
+
+    for (v = 0; v < teams.length; v++) {
+        teams[v].trank = v + 1;
+    }
 }
 
 function teamNats() {
