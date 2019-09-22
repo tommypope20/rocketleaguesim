@@ -615,11 +615,13 @@ function newGens() {
 function playerPickup() {
     for (x = 0; x < teams.length; x++) {
         if (teams[x].tplayers.length < 3) {
+            while (teams[x].tplayer.length < 3) {
             picked = Math.floor(Math.random() * (freeagents.length - 0 + 1)) + 0;
             teams[x].tplayers.push(freeagents[picked]);
             freeagents[picked].team = teams[x];
             print(freeagents[picked]);
             freeagents.splice(picked, 1);
+            }
         }
     }
 }
