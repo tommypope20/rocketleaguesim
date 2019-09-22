@@ -130,7 +130,7 @@ function displayPlayers() {
 
     body = document.body;
     
-    if (body.children.length > 2) {
+    if (body.children.length > 1) {
         body.removeChild(body.lastChild);
     }
 
@@ -222,8 +222,8 @@ function playerPage() {
 
     body = document.body;
 
-    if (body.children.length > 2) {
-        for(v = 0; v < body.children.length - 2; v++) {
+    if (body.children.length > 1) {
+        for(v = 0; v < body.children.length - 1; v++) {
             body.removeChild(body.lastChild);
         }
     }
@@ -293,7 +293,7 @@ function playerPage() {
 function displayTeams() {
     body = document.body;
 
-    if (body.children.length > 2) {
+    if (body.children.length > 1) {
         body.removeChild(body.lastChild);
     }
 
