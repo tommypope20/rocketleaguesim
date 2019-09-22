@@ -368,12 +368,12 @@ function rankTeams() {
         function compare( a, b ) {
             print(a);
             if ( a.teamelo < b.teamelo ){
+            a.trank = a.trank + 1;
               return -1;
-              a.trank = a.trank + 1;
             }
             if ( a.teamelo > b.teamelo ){
-              return 1;
               a.trank = a.trank -1;
+              return 1;
             }
             return 0;
           }
