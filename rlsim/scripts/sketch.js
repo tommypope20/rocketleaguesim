@@ -408,6 +408,20 @@ function teamNats() {
 
 function advance(days) {
     for (d=0; d < days; d++){
+    
+        if (date[0] > 12) {
+            date[0] = 1;
+            date[2] = date[2] + 1;
+    
+            playerRetirement();
+            newGens();
+            playerPickup();
+    
+            for (a = 0; a < players.length; a++) {
+                players[a].age = players[a].age + 1;
+            }
+    }
+
     if (date[1] == 31) {
         date[1] = 1;
         date[0] = date[0] + 1;
@@ -417,18 +431,6 @@ function advance(days) {
         date[1] = date[1] + 1;
     }
 
-    if (date[0] > 12) {
-        date[0] = 1;
-        date[2] = date[2] + 1;
-
-        playerRetirement();
-        newGens();
-        playerPickup();
-
-        for (a = 0; a < players.length; a++) {
-            players[a].age = players[a].age + 1;
-        }
-    }
 
     dat = document.getElementById("date");
     dat.innerHTML = date[0] + "/" + date[1] + "/" + date[2];
