@@ -367,23 +367,7 @@ function rankTeams() {
 
     }
 
-    function compare( a, b ) {
-        print(a);
-        if ( a.teamelo < b.teamelo ){
-        a.trank = a.trank + 1;
-        teams[x].trank = a.trank;
-          return 1;
-        }
-        if ( a.teamelo > b.teamelo ){
-          a.trank = a.trank -1;
-          teams[x].trank = a.trank;
-          return -1;
-        }
-        return 0;
-      }
-      
-      teams.sort( compare );
-
+    teams.sort(function (a, b){return a - b});
 }
 
 function teamNats() {
