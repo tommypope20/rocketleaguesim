@@ -369,11 +369,13 @@ function rankTeams() {
             print(a);
             if ( a.teamelo < b.teamelo ){
             a.trank = a.trank + 1;
-              return -1;
+            teams[x].trank = a.trank;
+              return 1;
             }
             if ( a.teamelo > b.teamelo ){
               a.trank = a.trank -1;
-              return 1;
+              teams[x].trank = a.trank;
+              return -1;
             }
             return 0;
           }
