@@ -367,7 +367,7 @@ function rankTeams() {
 
     }
 
-    teams.sort(function (a, b){return a.teamelo - b.teamelo});
+    teams.sort(function (a, b){return b.teamelo - a.teamelo});
 }
 
 function teamNats() {
