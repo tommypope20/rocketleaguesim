@@ -189,6 +189,7 @@ function displayPlayers() {
 
         pteam = document.createElement("td");
         pteam.innerHTML = players[x].team.tname;
+        pteam.setAttribute("onClick", "teamPage()");
         r.appendChild(pteam);
 
         overall = document.createElement("td");
@@ -237,6 +238,7 @@ function playerPage() {
 
     t = document.createElement("p");
     t.innerHTML = "Team: " + tplyr.team.tname;
+    t.setAttribute("onClick", "teamPage()")
     hold.appendChild(t);
 
     rating = document.createElement("div");
@@ -332,6 +334,7 @@ function displayTeams() {
 
         n = document.createElement("td");
         n.innerHTML = teams[x].tname
+        n.setAttribute("onClick", "teamPage()")
         r.appendChild(n);
 
         rank = document.createElement("td");
@@ -389,29 +392,26 @@ function teamNats() {
 
 function advance(days) {
     for (d=0; d < days; d++){
-    
-        if (date[0] > 12) {
-            date[0] = 1;
-            date[2] = date[2] + 1;
-    
-            playerRetirement();
-            newGens();
-            playerPickup();
-    
-            for (a = 0; a < players.length; a++) {
-                players[a].age = players[a].age + 1;
-            }
-    }
 
-    if (date[1] == 31) {
+    date[1] = date[1] + 1;
+    if (date[1] > 31) {
         date[1] = 1;
         date[0] = date[0] + 1;
         playerProgression();
         rankTeams();
-    } else {
-        date[1] = date[1] + 1;
-    }
+        teamNats();
+        if (date[0] > 12) {
+            date[0] = 1;
+            date[2] = date[2] + 1;
+            playerRetirement();
+            newGens();
+            playerPickup();
 
+            for (a = 0; a < players.length; a++) {
+                players[a].age = players[a].age + 1;
+            }
+        }
+    }
 
     dat = document.getElementById("date");
     dat.innerHTML = date[0] + "/" + date[1] + "/" + date[2];
@@ -521,6 +521,16 @@ function playerRetirement() {
     for (x = 0; x < players.length; x++) {
         if (players[x].age >= 25) {
               if ((Math.floor(Math.random() * (30 - 20 +1)) + 20) + players[x].age > 50) {
+                  if (players[x].team.tname == "Free Agents") {
+                    for(p = 0; p < freeagents.length; p++) {
+                        if (freeagents[p].firstName + " " + freeagents[p].lastName == players[x].firstName + " " + players[x].lastName) {
+                          freeagents.splice(p, 1)
+                          break;
+                        }
+                    } 
+                    players.splice(x, 1);
+                    x--;
+                  } else {
                   for(p = 0; p < players[x].team.tplayers.length; p++) {
                       if (players[x].team.tplayers[p].firstName + " " + players[x].team.tplayers[p].lastName == players[x].firstName + " " + players[x].lastName) {
                         players[x].team.tplayers.splice(p, 1)
@@ -529,14 +539,15 @@ function playerRetirement() {
                   } 
                   players.splice(x, 1);
                   x--;
-              };
+                }
+              }
         }
     }
 }
 
 function newGens() {
 
-    num = Math.floor(Math.random() * (5 - 0 + 1)) + 0;
+    num = Math.floor(Math.random() * (7 - 2 + 1)) + 2;
     for(x = 0; x < num; x++) {
     
     randNum = random(0, 100);
@@ -589,7 +600,7 @@ function newGens() {
 
     freeagentt.tname = "Free Agents";
     
-    rand = random(50, 100);
+    rand = random(70, 100);
 
     if (rand >= 99) {
         players[pid].shot = Math.floor(Math.random() * (100 - (rand - 10) + 1) + (rand - 10));
@@ -615,15 +626,59 @@ function newGens() {
 function playerPickup() {
     for (x = 0; x < teams.length; x++) {
         if (teams[x].tplayers.length < 3) {
-            while (teams[x].tplayer.length < 3) {
-            picked = Math.floor(Math.random() * (freeagents.length - 0 + 1)) + 0;
+            while (teams[x].tplayers.length < 3) {
+            picked = Math.floor(Math.random() * (freeagents.length - 1 - 0 + 1)) + 0;
+            if (freeagents[picked] == undefined){
+                newGens();
+                picked = Math.floor(Math.random() * (freeagents.length - 1 - 0 + 1)) + 0;
+            }
             teams[x].tplayers.push(freeagents[picked]);
             freeagents[picked].team = teams[x];
-            print(freeagents[picked]);
             freeagents.splice(picked, 1);
             }
         }
+
+        for(c = 0; c < freeagents.length; c++) {
+            for (z = 0; z < teams[x].tplayers.length; z++) {
+                if (freeagents[c].overall > teams[x].tplayers[z]) {
+                    freeagents.push(teams[x].tplayers[z])
+                    teams[x].tplayers.splice(z,1);
+                    teams[x].tplayers.push(freeagents[c]);
+                    freeagents.splice(c, 1);
+                }
+            }  
+        }
     }
+}
+
+function teamPage() {
+    tname = event.target.innerHTML;
+
+    print(tname);
+
+    for(i = 0; i<teams.length; i++) {
+        if (tname == teams[i].tname || tname == "Team:" + " " + teams[i].tname) {
+            tteam = teams[i];
+        }
+    }
+
+    body = document.body;
+
+    if (body.children.length > 1) {
+        for(v = 0; v < body.children.length - 1; v++) {
+            body.removeChild(body.lastChild);
+        }
+    }
+
+    hold = document.createElement("div");
+    body.appendChild(hold);
+
+    t = document.createElement("p");
+    t.innerHTML = "Team Name: " + tteam.tname;
+    hold.appendChild(t);
+
+
+
 }
 
 
