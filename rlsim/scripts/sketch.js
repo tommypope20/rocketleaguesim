@@ -372,14 +372,14 @@ function rankTeams() {
                 if (teams[x].teamelo > teams[z].teamelo) {
                     if (teams[x].trank == 1) {
 
-                    } else if (teams[z].trank == 1) {
-                        teams[z].trank = teams[z].trank + 1;
-                    } else {
+                    }   else {
                         teams[x].trank = teams[x].trank - 1;
+                    }  
+                    if (teams[z].trank == 1) {
+                        teams[z].trank = teams[z].trank + 1;
                     }
                 } else if (teams[z].teamelo > teams[x].teamelo) {
                     if (teams[z].trank == 1) {
-
                     } 
                      else {
                         teams[z].trank = teams[z].trank - 1;
