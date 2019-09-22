@@ -365,30 +365,21 @@ function rankTeams() {
 
         teams[x].teamelo = teams[x].rep + teams[x].teamelo;
 
-        for (z = 0; z < teams.length; z++) {
-            if (teams[x].tname == teams[z].tname) {
-
-            } else {
-                if (teams[x].teamelo > teams[z].teamelo) {
-                    if (teams[x].trank == 1) {
-
-                    }   else {
-                        teams[x].trank = teams[x].trank - 1;
-                    }  
-                    if (teams[z].trank == 1) {
-                        teams[z].trank = teams[z].trank + 1;
-                    }
-                } else if (teams[z].teamelo > teams[x].teamelo) {
-                    if (teams[z].trank == 1) {
-                    } 
-                     else {
-                        teams[z].trank = teams[z].trank - 1;
-                    } if (teams[x].trank == 1) {
-                        teams[x].trank = teams[x].trank + 1;
-                    }
-                }
+        function compare( a, b ) {
+            if ( a.teamelo < b.teamelo ){
+              return -1;
+              a.trank = a.trank + 1;
             }
-        }
+            if ( a.teamelo > b.teamelo ){
+              return 1;
+              a.trank = a.trank -1;
+            }
+            return 0;
+          }
+          
+          teams.sort( compare );
+
+        
     }
 
 }
