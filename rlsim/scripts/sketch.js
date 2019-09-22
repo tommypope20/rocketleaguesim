@@ -366,6 +366,7 @@ function rankTeams() {
         teams[x].teamelo = teams[x].rep + teams[x].teamelo;
 
         function compare( a, b ) {
+            print(a);
             if ( a.teamelo < b.teamelo ){
               return -1;
               a.trank = a.trank + 1;
