@@ -498,10 +498,10 @@ function playerProgression() {
 
                         } else {
 
-                        players[x].shot = players[x].shot + Math.random() * (3 - .5) + .5;
-                        players[x].pass = players[x].pass + Math.random() * (3 - .5) + .5;
-                        players[x].ctrl = players[x].ctrl + Math.random() * (3 - .5) + .5;
-                        players[x].save = players[x].save + Math.random() * (3 - .5) + .5;}
+                        players[x].shot = players[x].shot + Math.random() * (1.5 - .5) + .5;
+                        players[x].pass = players[x].pass + Math.random() * (1.5 - .5) + .5;
+                        players[x].ctrl = players[x].ctrl + Math.random() * (1.5 - .5) + .5;
+                        players[x].save = players[x].save + Math.random() * (1.5 - .5) + .5;}
                     } else if (randNum >= .1 && randNum < .75) {
 
                         if (players[x].pot == Math.round(players[x].ovr)  || players[x].ovr > players[x].pot) {
