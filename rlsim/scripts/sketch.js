@@ -702,11 +702,9 @@ function teamPage() {
     t.setAttribute("stlye","font-size:25px;")
     hold.appendChild(t);
 
-<<<<<<< HEAD
     
 
     }
-=======
     p = document.createElement("table");
     hold.appendChild(p);
     row = document.createElement("tr");
@@ -988,7 +986,6 @@ function displayEvents() {
         r.appendChild(place);
 
     } 
->>>>>>> 0797371d72ccdac3a8114059b3c8bb38bc4f5954
 
 }
 
