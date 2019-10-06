@@ -673,13 +673,6 @@ function playerPickup() {
 function teamPage() {
     tname = event.target.innerHTML;
 
-<<<<<<< HEAD
-    if (tname == "Free Agents") {
-
-    } else {
-
-=======
->>>>>>> 0797371d72ccdac3a8114059b3c8bb38bc4f5954
     for(i = 0; i<teams.length; i++) {
         if (tname == teams[i].tname || tname == "Team:" + " " + teams[i].tname) {
             tteam = teams[i];
@@ -704,7 +697,6 @@ function teamPage() {
 
     
 
-    }
     p = document.createElement("table");
     hold.appendChild(p);
     row = document.createElement("tr");
