@@ -1,5 +1,7 @@
 players = [];
 teams = [];
+events = [];
+matches = [];
 freeagents = [];
 date = [1, 1, 2019];
 
@@ -32,6 +34,18 @@ function Team(name, rank, players, nat, rep) {
     this.rep = rep;
 }
 
+function Tournament(name, place, srtdate) {
+    this.name = name;
+    this.place = place;
+    this.srtdate = srtdate;
+}
+
+function Match(teamone, teamtwo, md) {
+    this.teamone = teamone;
+    this.teamtwo = teamtwo;
+    this.md = md;
+}
+
 function setup() {
     noCanvas();
     noLoop();
@@ -40,6 +54,7 @@ function setup() {
     rankTeams();
     teamNats();
     displayDate();
+    eventGenerate();
 }
 
 function displayDate() {
@@ -205,7 +220,7 @@ function teamGenerate() {
     for (i=0; i < teamn.teams.length; i++) {
         teamname = teamn.teams[i];
 
-        rep = Math.floor(Math.random() * (100 - 80 +1)) + 80;
+        rep = Math.floor(Math.random() * (100 - 75 +1)) + 75;
 
         team = new Team(teamname, undefined, [], undefined, rep);
         teams.push(team);
@@ -234,6 +249,10 @@ function playerPage() {
 
     t = document.createElement("p");
     t.innerHTML = "Name: " + tplyr.firstName + " " + tplyr.lastName;
+    hold.appendChild(t);
+
+    t = document.createElement("p");
+    t.innerHTML = "Name: " + tplyr.age;
     hold.appendChild(t);
 
     t = document.createElement("p");
@@ -654,10 +673,13 @@ function playerPickup() {
 function teamPage() {
     tname = event.target.innerHTML;
 
+<<<<<<< HEAD
     if (tname == "Free Agents") {
 
     } else {
 
+=======
+>>>>>>> 0797371d72ccdac3a8114059b3c8bb38bc4f5954
     for(i = 0; i<teams.length; i++) {
         if (tname == teams[i].tname || tname == "Team:" + " " + teams[i].tname) {
             tteam = teams[i];
@@ -680,9 +702,293 @@ function teamPage() {
     t.setAttribute("stlye","font-size:25px;")
     hold.appendChild(t);
 
+<<<<<<< HEAD
     
 
     }
+=======
+    p = document.createElement("table");
+    hold.appendChild(p);
+    row = document.createElement("tr");
+    p.appendChild(row);
+
+    h = document.createElement("th");
+    h.innerHTML = "Player Name:"
+    row.appendChild(h);
+
+    h = document.createElement("th");
+    h.innerHTML = "Age:"
+    row.appendChild(h);
+
+    h = document.createElement("th");
+    h.innerHTML = "Nationality:"
+    row.appendChild(h);
+
+    h = document.createElement("th");
+    h.innerHTML = "Overall:"
+    row.appendChild(h);
+
+    h = document.createElement("th");
+    h.innerHTML = "Shot Rating:"
+    row.appendChild(h);
+    
+    h = document.createElement("th");
+    h.innerHTML = "Save Rating:"
+    row.appendChild(h);
+
+    h = document.createElement("th");
+    h.innerHTML = "Control Rating:"
+    row.appendChild(h);
+
+    h = document.createElement("th");
+    h.innerHTML = "Pass Rating:"
+    row.appendChild(h);
+
+    for(pl = 0; pl < tteam.tplayers.length; pl++) {
+
+        playerlisting = document.createElement("tr");
+        p.appendChild(playerlisting);
+        pnam = document.createElement("td");
+        pnam.innerHTML = tteam.tplayers[pl].firstName + " " + tteam.tplayers[pl].lastName;
+        pnam.setAttribute("onclick", "playerPage()")
+        playerlisting.appendChild(pnam);
+
+        page = document.createElement("td");
+        page.innerHTML = tteam.tplayers[pl].age;
+        playerlisting.appendChild(page);
+
+        pna = document.createElement("td");
+        pna.innerHTML = tteam.tplayers[pl].nationality;
+        playerlisting.appendChild(pna);
+
+        povr = document.createElement("td");
+        povr.innerHTML = tteam.tplayers[pl].ovr;
+        playerlisting.appendChild(povr);
+
+        page = document.createElement("td");
+        page.innerHTML = tteam.tplayers[pl].shot;
+        playerlisting.appendChild(page);
+
+        page = document.createElement("td");
+        page.innerHTML = tteam.tplayers[pl].save;
+        playerlisting.appendChild(page);
+
+        page = document.createElement("td");
+        page.innerHTML = tteam.tplayers[pl].ctrl;
+        playerlisting.appendChild(page);
+
+        page = document.createElement("td");
+        page.innerHTML = tteam.tplayers[pl].pass;
+        playerlisting.appendChild(page);
+    }
+}
+
+function eventGenerate() {
+    enames = [
+        "DreamHack",
+        "ELEAGUE",
+        "MLG",
+    ]
+
+    eplaces = [
+        "Leizpig",
+        "Berlin",
+        "Madrid",
+        "Barcelona",
+        "London",
+        "Manchester",
+        "New York",
+        "Chicago",
+        "Paris",
+        "Milan",
+        "Toronto",
+        "Lisbon",
+        "Los Angeles",
+        "Orlando",
+        "Sydney",
+        "Munich"
+    ]
+
+    id = Math.floor(Math.random() * enames.length) + 0;
+    eventname = enames[id];
+
+    id = Math.floor(Math.random() * eplaces.length) + 0;
+    eventplace = eplaces[id];
+
+    ename = eventname + " " + eventplace + " " + date[2];
+
+    startdate = [date[0]+2, date[1], date[2]];
+
+    e = new Tournament(ename, eventplace, startdate);
+    events.push(e);
+    e.teams = [];
+
+    if (eventname == "DreamHack") {
+        for(x=0; x<teams.length; x++) {
+            if (teams[x].trank < 9) {
+                e.teams.push(teams[x]);
+            }
+        }
+
+        e.groups = [];
+
+    numofgroup = (e.teams.length)/4;
+
+    if (numofgroup == 2) {
+        groupA = [];
+        groupB = [];
+
+        for(t =0; t<e.teams.length; t++) {
+            if (e.teams[t].trank == 1 || e.teams[t].trank == 3 || e.teams[t].trank == 6 || e.teams[t].trank == 8) {
+                groupA.push(e.teams[t]);
+            } else {
+                groupB.push(e.teams[t]);
+            }
+        }
+
+        e.groups.push(groupA);
+        e.groups.push(groupB);
+    }
+
+    } else {
+        for(c=0; c<teams.length; c++) {
+            if (teams[c].trank > 2) {
+                e.teams.push(teams[c]);
+            }
+        }
+
+        e.groups = [];
+
+    numofgroup = (e.teams.length)/4;
+
+    if (numofgroup == 2) {
+        groupA = [];
+        groupB = [];
+
+        for(t =0; t<e.teams.length; t++) {
+            if (e.teams[t].trank == 3 || e.teams[t].trank == 5 || e.teams[t].trank == 8 || e.teams[t].trank == 10) {
+                groupA.push(e.teams[t]);
+            } else {
+                groupB.push(e.teams[t]);
+            }
+        }
+
+        e.groups.push(groupA);
+        e.groups.push(groupB);
+        }
+    }
+
+    e.groups[0].matches = [];
+    e.groups[1].matches = [];
+
+    for (k=0;k<e.groups[0].length; k++) {
+        ft = e.groups[0][k];
+        for (s=0;s<e.groups[0].length; s++) {
+            if (ft.tname == e.groups[0][s].tname) {
+
+            } else {
+                st = e.groups[0][s];
+                if (e.groups[0].matches.length > 0) {
+                    for (b = 0; b < e.groups[0].matches.length; b++) {
+                        if (e.groups[0].matches[b].teamone.tname == ft.tname && e.groups[0].matches[b].teamtwo.tname == st.tname 
+                            || e.groups[0].matches[b].teamtwo.tname == ft.tname && e.groups[0].matches[b].teamone.tname == st.tname) {
+                            st = undefined;
+                            break;
+                        } else {
+                        }
+                    }
+                    if (st != undefined) {
+                        m = new Match(ft, st, startdate);
+                        matches.push(m);
+                        e.groups[0].matches.push(m);
+                    }
+                } else {
+                    st = e.groups[0][s];
+                    m = new Match(ft, st, startdate);
+                    matches.push(m);
+                    e.groups[0].matches.push(m);
+                }
+            }
+        }
+    }
+
+    for (k=0;k<e.groups[1].length; k++) {
+        ft = e.groups[1][k];
+        for (s=0;s<e.groups[1].length; s++) {
+            if (ft.tname == e.groups[1][s].tname) {
+
+            } else {
+                st = e.groups[1][s];
+                if (e.groups[1].matches.length > 0) {
+                    for (b = 0; b < e.groups[1].matches.length; b++) {
+                        if (e.groups[1].matches[b].teamone.tname == ft.tname && e.groups[1].matches[b].teamtwo.tname == st.tname 
+                            || e.groups[1].matches[b].teamtwo.tname == ft.tname && e.groups[1].matches[b].teamone.tname == st.tname) {
+                            st = undefined;
+                            break;
+                        } else {
+                        }
+                    }
+                    if (st != undefined) {
+                        m = new Match(ft, st, [startdate[0], startdate[1]+1, startdate[2]]);
+                        matches.push(m);
+                        e.groups[1].matches.push(m);
+                    }
+                } else {
+                    st = e.groups[1][s];
+                    m = new Match(ft, st, [startdate[0], startdate[1]+1, startdate[2]]);
+                    matches.push(m);
+                    e.groups[1].matches.push(m);
+                }
+            }
+        }
+    }
+}
+
+function displayEvents() {
+
+    body = document.body;
+
+    if (body.children.length > 1) {
+        for(v = 0; v < body.children.length - 1; v++) {
+            body.removeChild(body.lastChild);
+        }
+    }
+
+    t = document.createElement("table");
+
+    t.id = "tl";
+
+    body.appendChild(t);
+
+    r = document.createElement("tr");
+
+    t.appendChild(r);
+
+    th = document.createElement('th');
+    th.innerHTML = "Event Name";
+
+    r.appendChild(th);
+
+    th = document.createElement('th');
+    th.innerHTML = "Start Date";
+
+    r.appendChild(th);
+
+    for (x=0; x < events.length; x++) {
+        r = document.createElement("tr");
+        t.appendChild(r);
+
+        n = document.createElement("td");
+        n.innerHTML = events[x].name;
+        n.setAttribute("onClick", "teamPage()")
+        r.appendChild(n);
+
+        place = document.createElement("td");
+        place.innerHTML = events[x].srtdate[0] + "/" + events[x].srtdate[1] + "/" + events[x].srtdate[2];
+        r.appendChild(place);
+
+    } 
+>>>>>>> 0797371d72ccdac3a8114059b3c8bb38bc4f5954
 
 }
 
