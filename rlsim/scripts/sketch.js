@@ -654,7 +654,9 @@ function playerPickup() {
 function teamPage() {
     tname = event.target.innerHTML;
 
-    print(tname);
+    if (tname == "Free Agents") {
+
+    } else {
 
     for(i = 0; i<teams.length; i++) {
         if (tname == teams[i].tname || tname == "Team:" + " " + teams[i].tname) {
@@ -674,10 +676,13 @@ function teamPage() {
     body.appendChild(hold);
 
     t = document.createElement("p");
-    t.innerHTML = "Team Name: " + tteam.tname;
+    t.innerHTML = "Name: " + tteam.tname;
+    t.setAttribute("stlye","font-size:25px;")
     hold.appendChild(t);
 
+    
 
+    }
 
 }
 
